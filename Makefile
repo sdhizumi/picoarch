@@ -33,7 +33,7 @@ LDFLAGS    = -lc -ldl -lgcc -lm -lSDL -lasound -lpng -lz -Wl,--gc-sections -flto
 CORES = beetle-pce-fast bluemsx fceumm fmsx gambatte gme gpsp mame2000 mednafen_ngp mednafen_wswan pcsx_rearmed picodrive pokemini quicknes smsplus-gx snes9x2002 snes9x2005 stella2014 $(EXTRA_CORES)
 
 ifneq ($(platform), trimui)
-CORES := $(CORES) dosbox-pure fake-08 fbalpha2012 snes9x2005_plus snes9x2010
+CORES := $(CORES) dosbox-pure fake-08 fbalpha2012 mgba snes9x2005_plus snes9x2010
 endif
 
 # CORES = dosbox-pure
@@ -76,7 +76,6 @@ gambatte_REPO = https://github.com/libretro/gambatte-libretro
 gambatte_TYPES = gb,gbc,dmg,zip
 
 gme_REPO = https://github.com/libretro/libretro-gme
-
 gpsp_TYPES = gba,bin,zip
 
 mame2000_REPO = https://github.com/libretro/mame2000-libretro
@@ -90,6 +89,9 @@ mednafen_ngp_TYPES = ngp,ngc,ngpc,npc
 
 mednafen_wswan_REPO = https://github.com/libretro/beetle-wswan-libretro
 mednafen_wswan_TYPES = ws,wsc,pc2
+
+mgba_REPO = https://github.com/sdhizumi/mgba-libretro.git
+mgba_TYPES = gb,gbc,gba
 
 pcsx_rearmed_MAKEFILE = Makefile.libretro
 pcsx_rearmed_TYPES = bin,cue,img,mdf,pbp,toc,cbn,m3u,chd
@@ -503,6 +505,10 @@ mednafen_wswan_NAME = wswan
 mednafen_wswan_ROM_DIR = /mnt/WonderSwan
 mednafen_wswan_ICON_URL = https://raw.githubusercontent.com/FunKey-Project/FunKey-OS/master/FunKey/package/mednafen/opk/wonderswan/wonderswan.png
 mednafen_wswan_ICON = wonderswan
+
+mgba_ROM_DIR = /mnt/Game Boy Advance
+mgba_ICON_URL = https://raw.githubusercontent.com/libretro/mgba/master/res/mgba-32.png
+mgba_ICON = mgba-32
 
 pcsx_rearmed_ROM_DIR = /mnt/PS1
 pcsx_rearmed_ICON_URL = https://raw.githubusercontent.com/MiyooCFW/gmenu2x/gmenunx/assets/miyoo/skins/PixUI/icons/pcsx4all.png
