@@ -2,6 +2,14 @@
 platform   ?= unix
 core_platform ?= $(platform)
 
+ifeq ($(platform), trimui)
+	CHAINPREFIX ?= /opt/trimui-toolchain
+	CROSS_COMPILE = $(CHAINPREFIX)/arm-buildroot-linux-gnueabi-
+else ifeq ($(platform), funkey-s)
+	CHAINPREFIX ?= /opt/FunKey-sdk-2.3.0
+	CROSS_COMPILE = $(CHAINPREFIX)/bin/arm-funkey-linux-musleabihf-
+endif
+
 CC        = $(CROSS_COMPILE)gcc
 CXX       = $(CROSS_COMPILE)g++
 SYSROOT   = $(shell $(CC) --print-sysroot)
