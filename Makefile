@@ -76,6 +76,7 @@ gambatte_REPO = https://github.com/libretro/gambatte-libretro
 gambatte_TYPES = gb,gbc,dmg,zip
 
 gme_REPO = https://github.com/libretro/libretro-gme
+
 gpsp_TYPES = gba,bin,zip
 
 mame2000_REPO = https://github.com/libretro/mame2000-libretro
