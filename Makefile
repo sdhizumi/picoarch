@@ -3,6 +3,7 @@ platform   ?= unix
 core_platform ?= $(platform)
 
 CC        = $(CROSS_COMPILE)gcc
+CXX       = $(CROSS_COMPILE)g++
 SYSROOT   = $(shell $(CC) --print-sysroot)
 
 PROCS     = -j4
