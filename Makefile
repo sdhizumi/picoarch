@@ -28,11 +28,13 @@ CFLAGS     += -I./ -I./libretro-common/include/ $(shell $(SYSROOT)/usr/bin/sdl-c
 LDFLAGS    = -lc -ldl -lgcc -lm -lSDL -lasound -lpng -lz -Wl,--gc-sections -flto
 
 # Unpolished or slow cores that build
-# EXTRA_CORES += mame2003_plus prboom scummvm tyrquake
+# mesen is added in this entry but cannnot working on my RG Nano.
+# SameBoy is added in this entry but cannnot build, because needs SDL2 but FunKey-OS working with SDL1.
+# EXTRA_CORES += mame2003_plus mesen prboom scummvm sameboy tyrquake
 
 CORES = beetle-pce-fast bluemsx fceumm fmsx gambatte gme gpsp mame2000 mednafen_ngp mednafen_wswan pcsx_rearmed picodrive pokemini quicknes smsplus-gx snes9x2002 snes9x2005 stella2014 $(EXTRA_CORES)
 
-ifneq ($(platform), trimui)
+fneq ($(platform), trimui)
 CORES := $(CORES) dosbox-pure fake-08 fbalpha2012 mgba snes9x2005_plus snes9x2010
 endif
 
@@ -76,6 +78,7 @@ gambatte_REPO = https://github.com/libretro/gambatte-libretro
 gambatte_TYPES = gb,gbc,dmg,zip
 
 gme_REPO = https://github.com/libretro/libretro-gme
+gme_TYPES = ay,gbs,gym,hes,kss,nsf,nsfe,sap,spc,vgm,vgz,zip
 
 gpsp_TYPES = gba,bin,zip
 
@@ -90,6 +93,9 @@ mednafen_ngp_TYPES = ngp,ngc,ngpc,npc
 
 mednafen_wswan_REPO = https://github.com/libretro/beetle-wswan-libretro
 mednafen_wswan_TYPES = ws,wsc,pc2
+
+mesen_REPO = https://github.com/SourMesen/Mesen.git
+mesen_TYPES = nes,fds,unf,unif
 
 mgba_REPO = https://github.com/sdhizumi/mgba-libretro.git
 mgba_TYPES = gb,gbc,gba
@@ -107,6 +113,9 @@ prboom_TYPES = wad,iwad,pwad,lmp
 
 quicknes_REPO = https://github.com/libretro/QuickNES_Core
 quicknes_TYPES = nes
+
+sameboy_REPO = https://github.com/LIJI32/SameBoy.git
+sameboy_TYPES = gb,gbc
 
 scummvm_TYPES = scummvm
 
@@ -215,8 +224,15 @@ define CORE_template =
 $1_REPO ?= https://github.com/libretro/$(1)/
 
 $1_BUILD_PATH ?= $(1)
+ifeq ($(core), mesen)
+	$1_BUILD_PATH = $(1)/Libretro
+endif
 
 $1_MAKE = make $(and $($1_MAKEFILE),-f $($1_MAKEFILE)) platform=$(core_platform) $(and $(DEBUG),DEBUG=$(DEBUG)) $(and $(PROFILE),PROFILE=$(PROFILE)) CC=$(CC) CXX=$(CXX) $($(1)_FLAGS)
+
+ifeq ($(core), sameboy)
+	$1_MAKE_SAMEBOY = bootroms && $$($1_MAKE) $(PROCS) libretro
+endif
 
 $(1):
 	git clone $(if $($1_REVISION),,--depth 1) --recursive $$($(1)_REPO) $(1)
@@ -224,10 +240,10 @@ $(1):
 	(test ! -d patches/$(1)) || (cd $(1) && $(foreach patch, $(sort $(wildcard patches/$(1)/*.patch)), patch --merge --no-backup-if-mismatch -p1 < ../$(patch) &&) true)
 
 $(1)/$(1)_libretro.so: $(1)
-	cd $$($1_BUILD_PATH) && $$($1_MAKE) $(PROCS)
+		cd $$($1_BUILD_PATH) && $$($1_MAKE) $(PROCS) $($1_MAKE_SAMEBOY)
 
 $(1)_libretro.so: $(1)/$(1)_libretro.so
-	cp $$($1_BUILD_PATH)/$(if $($(1)_CORE),$($(1)_CORE),$(1)_libretro.so) $(1)_libretro.so
+		cp $$($1_BUILD_PATH)/$(if $($(1)_CORE),sameboy,sameboy/build/bin)/$(if $($(1)_CORE),$($(1)_CORE),$(1)_libretro.so) $(1)_libretro.so
 
 clean-$(1):
 	test ! -d $(1) || cd $$($1_BUILD_PATH) && $$($1_MAKE) clean
@@ -480,13 +496,16 @@ gambatte_ICON_URL = https://raw.githubusercontent.com/FunKey-Project/FunKey-OS/m
 gambatte_ICON = gb
 
 gme_ROM_DIR = /mnt/Music
-gme_TYPES = ay,gbs,gym,hes,kss,nsf,nsfe,sap,spc,vgm,vgz,zip
 gme_ICON_URL = https://raw.githubusercontent.com/MiyooCFW/gmenu2x/gmenunx/assets/miyoo/skins/PixUI/icons/gmu.png
 gme_ICON = gmu
 
 gpsp_ROM_DIR = /mnt/Game Boy Advance
 gpsp_ICON_URL = https://raw.githubusercontent.com/FunKey-Project/FunKey-OS/master/FunKey/package/gpsp/opk/gba/gba.png
 gpsp_ICON = gba
+
+mesen_ROM_DIR = /mnt/NES
+mesen_ICON_URL = https://raw.githubusercontent.com/SourMesen/Mesen/master/GUI.NET/Resources/MesenIconMedium.png
+mesen_ICON = MesenIconMedium
 
 mame2000_ROM_DIR = /mnt/Arcade
 mame2000_ICON_URL = https://raw.githubusercontent.com/MiyooCFW/gmenu2x/gmenunx/assets/miyoo/skins/PixUI/icons/mame.png
@@ -526,6 +545,10 @@ pokemini_ICON = pokemini
 quicknes_ROM_DIR = /mnt/NES
 quicknes_ICON_URL = https://raw.githubusercontent.com/FunKey-Project/FunKey-OS/master/FunKey/package/FCEUX/opk/nes/nes.png
 quicknes_ICON = nes
+
+sameboy_ROM_DIR = /mnt/Game Boy
+sameboy_ROM_DIR = https://raw.githubusercontent.com/LIJI32/SameBoy/master/FreeDesktop/AppIcon/32x32.png
+sameboy_ICON = 32x32.png
 
 smsplus-gx_ROM_DIR = /mnt/Game Gear
 smsplus-gx_ICON_URL = https://raw.githubusercontent.com/FunKey-Project/FunKey-OS/master/FunKey/package/mednafen/opk/gamegear/gamegear.png
