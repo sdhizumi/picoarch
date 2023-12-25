@@ -1,4 +1,4 @@
-diff --git a/Makefile.libretro b/Makefile.libretro"
+diff --git a/Makefile.libretro b/Makefile.libretro
 index 522bd06..95597f6 100644
 --- a/Makefile.libretro
 +++ b/Makefile.libretro

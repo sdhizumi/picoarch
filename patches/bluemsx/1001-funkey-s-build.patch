@@ -1,7 +1,7 @@
-diff --git a/Makefile.libretro b/Makefile.libretro_c
+diff --git a/Makefile.libretro b/Makefile.libretro
 index 8046706..ddf701d 100644
 --- a/Makefile.libretro
-+++ b/Makefile.libretro_c
++++ b/Makefile.libretro
 @@ -143,10 +143,10 @@ else ifeq ($(platform), miyoo)
  
  # (armv7 a7, hard point, neon based) ### 
