@@ -76,6 +76,7 @@ gambatte_REPO = https://github.com/libretro/gambatte-libretro
 gambatte_TYPES = gb,gbc,dmg,zip
 
 gme_REPO = https://github.com/libretro/libretro-gme
+gme_TYPES = ay,gbs,gym,hes,kss,nsf,nsfe,sap,spc,vgm,vgz,zip
 
 gpsp_TYPES = gba,bin,zip
 
@@ -480,7 +481,6 @@ gambatte_ICON_URL = https://raw.githubusercontent.com/FunKey-Project/FunKey-OS/m
 gambatte_ICON = gb
 
 gme_ROM_DIR = /mnt/Music
-gme_TYPES = ay,gbs,gym,hes,kss,nsf,nsfe,sap,spc,vgm,vgz,zip
 gme_ICON_URL = https://raw.githubusercontent.com/MiyooCFW/gmenu2x/gmenunx/assets/miyoo/skins/PixUI/icons/gmu.png
 gme_ICON = gmu
 
