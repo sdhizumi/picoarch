@@ -65,6 +65,7 @@ fbalpha2012_MAKEFILE = makefile.libretro
 fbalpha2012_TYPES = zip
 
 fceumm_REPO = https://github.com/libretro/libretro-fceumm
+fceumm_REVISION = 76bde1c45707db6c5947c35b9c3e46dea4eb6258
 fceumm_MAKEFILE = Makefile.libretro
 fceumm_TYPES = fds,nes,unf,unif
 

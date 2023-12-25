@@ -1,0 +1,17 @@
+diff --git a/Makefile.libretro b/Makefile.libretro"
+index 522bd06..95597f6 100644
+--- a/Makefile.libretro
++++ b/Makefile.libretro
+@@ -347,10 +347,10 @@ else ifeq ($(platform), libnx)
+ 
+ # (armv7 a7, hard point, neon based) ### 
+ # NESC, SNESC, C64 mini 
+-else ifeq ($(platform), classic_armv7_a7)
++else ifeq ($(platform),$(filter $(platform),classic_armv7_a7 unix-armv7-hardfloat-neon))
+ 	TARGET := $(TARGET_NAME)_libretro.so
+ 	fpic := -fPIC
+-	SHARED := -shared -Wl,--version-script=src/drivers/libretro/link.T -Wl,-no-undefined
++	SHARED := -shared -Wl,--version-script=src/drivers/libretro/link.T -Wl,-no-undefined -fPIC
+ 	CFLAGS += -Ofast \
+ 	-flto=4 -fwhole-program -fuse-linker-plugin \
+ 	-fdata-sections -ffunction-sections -Wl,--gc-sections \
