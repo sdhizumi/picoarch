@@ -28,10 +28,7 @@ CFLAGS     += -I./ -I./libretro-common/include/ $(shell $(SYSROOT)/usr/bin/sdl-c
 LDFLAGS    = -lc -ldl -lgcc -lm -lSDL -lasound -lpng -lz -Wl,--gc-sections -flto
 
 # Unpolished or slow cores that build
-
-# mesen is added in this entry but cannnot working on my RG Nano.
-# SameBoy is added in this entry but cannnot build, because needs SDL2 but FunKey-OS working with SDL1.
-# EXTRA_CORES += mame2003_plus mesen mgba prboom scummvm sameboy tyrquake vba_next
+# EXTRA_CORES += mame2003_plus prboom scummvm tyrquake
 
 CORES = beetle-pce-fast bluemsx fceumm fmsx gambatte gme gpsp mame2000 mednafen_ngp mednafen_wswan pcsx_rearmed picodrive pokemini quicknes smsplus-gx snes9x2002 snes9x2005 stella2014 $(EXTRA_CORES)
 
@@ -79,7 +76,6 @@ gambatte_REPO = https://github.com/libretro/gambatte-libretro
 gambatte_TYPES = gb,gbc,dmg,zip
 
 gme_REPO = https://github.com/libretro/libretro-gme
-gme_TYPES = ay,gbs,gym,hes,kss,nsf,nsfe,sap,spc,vgm,vgz,zip
 
 gpsp_TYPES = gba,bin,zip
 
@@ -94,9 +90,6 @@ mednafen_ngp_TYPES = ngp,ngc,ngpc,npc
 
 mednafen_wswan_REPO = https://github.com/libretro/beetle-wswan-libretro
 mednafen_wswan_TYPES = ws,wsc,pc2
-
-mesen_REPO = https://github.com/SourMesen/Mesen.git
-mesen_TYPES = nes,fds,unf,unif
 
 mgba_REPO = https://github.com/sdhizumi/mgba-libretro.git
 mgba_TYPES = gb,gbc,gba
@@ -114,9 +107,6 @@ prboom_TYPES = wad,iwad,pwad,lmp
 
 quicknes_REPO = https://github.com/libretro/QuickNES_Core
 quicknes_TYPES = nes
-
-sameboy_REPO = https://github.com/LIJI32/SameBoy.git
-sameboy_TYPES = gb,gbc
 
 scummvm_TYPES = scummvm
 
@@ -141,9 +131,6 @@ stella2014_REPO = https://github.com/libretro/stella2014-libretro
 stella2014_TYPES = a26,bin
 
 tyrquake_TYPES = pak
-
-vba_next_REPO = https://github.com/libretro/vba-next.git
-vba_next_TYPES = gb,gbc,gba
 
 ifeq ($(platform), trimui)
 	SOURCES += plat_trimui.c
@@ -228,19 +215,8 @@ define CORE_template =
 $1_REPO ?= https://github.com/libretro/$(1)/
 
 $1_BUILD_PATH ?= $(1)
-ifeq ($(core), scummvm)
-	$1_BUILD_PATH = $(1)/backends/platform/libretro
-else ifeq ($(core), mesen)
-	$1_BUILD_PATH = $(1)/Libretro
-else
-	$1_BUILD_PATH ?= $(1)
-endif
 
 $1_MAKE = make $(and $($1_MAKEFILE),-f $($1_MAKEFILE)) platform=$(core_platform) $(and $(DEBUG),DEBUG=$(DEBUG)) $(and $(PROFILE),PROFILE=$(PROFILE)) CC=$(CC) CXX=$(CXX) $($(1)_FLAGS)
-
-ifeq ($(core), sameboy)
-	$1_MAKE_SAMEBOY = bootroms && $$($1_MAKE) $(PROCS) libretro
-endif
 
 $(1):
 	git clone $(if $($1_REVISION),,--depth 1) --recursive $$($(1)_REPO) $(1)
@@ -248,10 +224,10 @@ $(1):
 	(test ! -d patches/$(1)) || (cd $(1) && $(foreach patch, $(sort $(wildcard patches/$(1)/*.patch)), patch --merge --no-backup-if-mismatch -p1 < ../$(patch) &&) true)
 
 $(1)/$(1)_libretro.so: $(1)
-		cd $$($1_BUILD_PATH) && $$($1_MAKE) $(PROCS) $($1_MAKE_SAMEBOY)
+	cd $$($1_BUILD_PATH) && $$($1_MAKE) $(PROCS)
 
 $(1)_libretro.so: $(1)/$(1)_libretro.so
-		cp $$($1_BUILD_PATH)/$(if $($(1)_CORE),sameboy,sameboy/build/bin)/$(if $($(1)_CORE),$($(1)_CORE),$(1)_libretro.so) $(1)_libretro.so
+	cp $$($1_BUILD_PATH)/$(if $($(1)_CORE),$($(1)_CORE),$(1)_libretro.so) $(1)_libretro.so
 
 clean-$(1):
 	test ! -d $(1) || cd $$($1_BUILD_PATH) && $$($1_MAKE) clean
@@ -504,16 +480,13 @@ gambatte_ICON_URL = https://raw.githubusercontent.com/FunKey-Project/FunKey-OS/m
 gambatte_ICON = gb
 
 gme_ROM_DIR = /mnt/Music
+gme_TYPES = ay,gbs,gym,hes,kss,nsf,nsfe,sap,spc,vgm,vgz,zip
 gme_ICON_URL = https://raw.githubusercontent.com/MiyooCFW/gmenu2x/gmenunx/assets/miyoo/skins/PixUI/icons/gmu.png
 gme_ICON = gmu
 
 gpsp_ROM_DIR = /mnt/Game Boy Advance
 gpsp_ICON_URL = https://raw.githubusercontent.com/FunKey-Project/FunKey-OS/master/FunKey/package/gpsp/opk/gba/gba.png
 gpsp_ICON = gba
-
-mesen_ROM_DIR = /mnt/NES
-mesen_ICON_URL = https://raw.githubusercontent.com/SourMesen/Mesen/master/GUI.NET/Resources/MesenIconMedium.png
-mesen_ICON = MesenIconMedium
 
 mame2000_ROM_DIR = /mnt/Arcade
 mame2000_ICON_URL = https://raw.githubusercontent.com/MiyooCFW/gmenu2x/gmenunx/assets/miyoo/skins/PixUI/icons/mame.png
@@ -522,7 +495,7 @@ mame2000_ICON = mame
 mame2003_plus_NAME = mame2003+
 mame2003_plus_ROM_DIR = /mnt/Arcade
 mame2003_plus_ICON_URL = https://raw.githubusercontent.com/MiyooCFW/gmenu2x/gmenunx/assets/miyoo/skins/PixUI/icons/mame.png
-mame2003_plus_ICON = mame
+mame2003_plus_ICON = icon
 
 mednafen_ngp_NAME = ngp
 mednafen_ngp_ROM_DIR = /mnt/Neo Geo Pocket
@@ -534,7 +507,6 @@ mednafen_wswan_ROM_DIR = /mnt/WonderSwan
 mednafen_wswan_ICON_URL = https://raw.githubusercontent.com/FunKey-Project/FunKey-OS/master/FunKey/package/mednafen/opk/wonderswan/wonderswan.png
 mednafen_wswan_ICON = wonderswan
 
-mgba_NAME = mGBA
 mgba_ROM_DIR = /mnt/Game Boy Advance
 mgba_ICON_URL = https://raw.githubusercontent.com/libretro/mgba/master/res/mgba-32.png
 mgba_ICON = mgba-32
@@ -551,18 +523,9 @@ pokemini_ROM_DIR = /mnt/PokeMini
 pokemini_ICON_URL = https://raw.githubusercontent.com/MiyooCFW/gmenu2x/gmenunx/assets/miyoo/skins/PixUI/icons/pokemini.png
 pokemini_ICON = pokemini
 
-prboom_NAME = PrBoom
-prboom_ROM_DIR = /mnt/Doom
-prboom_ICON_URL = https://raw.githubusercontent.com/libretro/retroarch-assets/master/Systematic/icons/png/64/DOOM.png
-prboom_ICON = DOOM
-
 quicknes_ROM_DIR = /mnt/NES
 quicknes_ICON_URL = https://raw.githubusercontent.com/FunKey-Project/FunKey-OS/master/FunKey/package/FCEUX/opk/nes/nes.png
 quicknes_ICON = nes
-
-sameboy_ROM_DIR = /mnt/Game Boy
-sameboy_ROM_DIR = https://raw.githubusercontent.com/LIJI32/SameBoy/master/FreeDesktop/AppIcon/32x32.png
-sameboy_ICON = 32x32.png
 
 smsplus-gx_ROM_DIR = /mnt/Game Gear
 smsplus-gx_ICON_URL = https://raw.githubusercontent.com/FunKey-Project/FunKey-OS/master/FunKey/package/mednafen/opk/gamegear/gamegear.png
@@ -586,25 +549,10 @@ snes9x2010_ICON_URL = https://raw.githubusercontent.com/FunKey-Project/FunKey-OS
 snes9x2010_ICON = snes
 snes9x2010_ROM_DIR = /mnt/SNES
 
-scummvm_NAME = ScummVM
-scummvm_ROM_DIR = /mnt/ScummVM
-scummvm_ICON_URL = https://www.scummvm.org/images/scummvm.png
-scummvm_ICON = scummvm
-
 stella2014_NAME = stella2014
 stella2014_ICON_URL = https://raw.githubusercontent.com/MiyooCFW/gmenu2x/gmenunx/assets/miyoo/skins/PixUI/icons/stella-od.png
 stella2014_ICON = stella-od
 stella2014_ROM_DIR = /mnt/Atari 2600
-
-tyrquake_NAME = TyrQuake
-tyrquake_ROM_DIR = /mnt/TyrQuake
-tyrquake_ICON_URL = https://raw.githubusercontent.com/libretro/retroarch-assets/master/Systematic/icons/png/64/Quake.png
-tyrquake_ICON = Quake
-
-vba_next_NAME = VBA-Next
-vba_next_ROM_DIR = /mnt/Game Boy Advance
-vba_next_ICON_URL = https://raw.githubusercontent.com/libretro/vbam-libretro/master/src/wx/icons/sizes/32x32/apps/vbam.png
-vba_next_ICON = vbam
 
 define CORE_opk =
 
