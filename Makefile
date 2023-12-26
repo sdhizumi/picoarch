@@ -31,7 +31,7 @@ LDFLAGS    = -lc -ldl -lgcc -lm -lSDL -lasound -lpng -lz -Wl,--gc-sections -flto
 
 # mesen is added in this entry but cannnot working on my RG Nano.
 # SameBoy is added in this entry but cannnot build, because needs SDL2 but FunKey-OS working with SDL1.
-# EXTRA_CORES += mame2003_plus mesen mgba prboom scummvm sameboy tyrquake vba_next
+# EXTRA_CORES += mame2003_plus mesen mgba prboom scummvm sameboy tyrquake vbam vba_next
 
 CORES = beetle-pce-fast bluemsx fceumm fmsx gambatte gme gpsp mame2000 mednafen_ngp mednafen_wswan pcsx_rearmed picodrive pokemini quicknes smsplus-gx snes9x2002 snes9x2005 stella2014 $(EXTRA_CORES)
 
@@ -142,6 +142,9 @@ stella2014_TYPES = a26,bin
 
 tyrquake_TYPES = pak
 
+vbam_REPO = https://github.com/libretro/vbam-libretro.git
+vbam_TYPES = gb,gbc,gba
+
 vba_next_REPO = https://github.com/libretro/vba-next.git
 vba_next_TYPES = gb,gbc,gba
 
@@ -232,6 +235,8 @@ ifeq ($(core), scummvm)
 	$1_BUILD_PATH = $(1)/backends/platform/libretro
 else ifeq ($(core), mesen)
 	$1_BUILD_PATH = $(1)/Libretro
+else ifeq ($(core), vbam)
+	$1_BUILD_PATH = $(1)/src/libretro
 else
 	$1_BUILD_PATH ?= $(1)
 endif
@@ -600,6 +605,11 @@ tyrquake_NAME = TyrQuake
 tyrquake_ROM_DIR = /mnt/TyrQuake
 tyrquake_ICON_URL = https://raw.githubusercontent.com/libretro/retroarch-assets/master/Systematic/icons/png/64/Quake.png
 tyrquake_ICON = Quake
+
+vbam_NAME = VBA-M
+vbam_ROM_DIR = /mnt/Game Boy Advance
+vbam_ICON_URL = https://raw.githubusercontent.com/libretro/vbam-libretro/master/src/wx/icons/sizes/32x32/apps/vbam.png
+vbam_ICON = vbam
 
 vba_next_NAME = VBA-Next
 vba_next_ROM_DIR = /mnt/Game Boy Advance
