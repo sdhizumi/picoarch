@@ -215,7 +215,11 @@ define CORE_template =
 
 $1_REPO ?= https://github.com/libretro/$(1)/
 
-$1_BUILD_PATH ?= $(1)
+ifeq ($(core), scummvm)
+	$1_BUILD_PATH = $(1)/backends/platform/libretro
+else
+	$1_BUILD_PATH ?= $(1)
+endif
 
 $1_MAKE = make $(and $($1_MAKEFILE),-f $($1_MAKEFILE)) platform=$(core_platform) $(and $(DEBUG),DEBUG=$(DEBUG)) $(and $(PROFILE),PROFILE=$(PROFILE)) CC=$(CC) CXX=$(CXX) $($(1)_FLAGS)
 
