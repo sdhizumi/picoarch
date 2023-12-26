@@ -28,7 +28,7 @@ CFLAGS     += -I./ -I./libretro-common/include/ $(shell $(SYSROOT)/usr/bin/sdl-c
 LDFLAGS    = -lc -ldl -lgcc -lm -lSDL -lasound -lpng -lz -Wl,--gc-sections -flto
 
 # Unpolished or slow cores that build
-# EXTRA_CORES += mame2003_plus mgba prboom scummvm tyrquake
+# EXTRA_CORES += mame2003_plus mgba prboom scummvm tyrquake vba_next
 
 CORES = beetle-pce-fast bluemsx fceumm fmsx gambatte gme gpsp mame2000 mednafen_ngp mednafen_wswan pcsx_rearmed picodrive pokemini quicknes smsplus-gx snes9x2002 snes9x2005 stella2014 $(EXTRA_CORES)
 
@@ -132,6 +132,9 @@ stella2014_REPO = https://github.com/libretro/stella2014-libretro
 stella2014_TYPES = a26,bin
 
 tyrquake_TYPES = pak
+
+vba_next_REPO = https://github.com/libretro/vba-next.git
+vba_next_TYPES = gb,gbc,gba
 
 ifeq ($(platform), trimui)
 	SOURCES += plat_trimui.c
@@ -511,6 +514,7 @@ mednafen_wswan_ROM_DIR = /mnt/WonderSwan
 mednafen_wswan_ICON_URL = https://raw.githubusercontent.com/FunKey-Project/FunKey-OS/master/FunKey/package/mednafen/opk/wonderswan/wonderswan.png
 mednafen_wswan_ICON = wonderswan
 
+mgba_NAME = mGBA
 mgba_ROM_DIR = /mnt/Game Boy Advance
 mgba_ICON_URL = https://raw.githubusercontent.com/libretro/mgba/master/res/mgba-32.png
 mgba_ICON = mgba-32
@@ -572,6 +576,11 @@ tyrquake_NAME = TyrQuake
 tyrquake_ROM_DIR = /mnt/TyrQuake
 tyrquake_ICON_URL = https://raw.githubusercontent.com/libretro/retroarch-assets/master/Systematic/icons/png/64/Quake.png
 tyrquake_ICON = Quake
+
+vba_next_NAME = VBA-Next
+vba_next_ROM_DIR = /mnt/Game Boy Advance
+vba_next_ICON_URL = https://raw.githubusercontent.com/libretro/vbam-libretro/master/src/wx/icons/sizes/32x32/apps/vbam.png
+vba_next_ICON = vbam
 
 define CORE_opk =
 
