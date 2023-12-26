@@ -499,7 +499,7 @@ mame2000_ICON = mame
 mame2003_plus_NAME = mame2003+
 mame2003_plus_ROM_DIR = /mnt/Arcade
 mame2003_plus_ICON_URL = https://raw.githubusercontent.com/MiyooCFW/gmenu2x/gmenunx/assets/miyoo/skins/PixUI/icons/mame.png
-mame2003_plus_ICON = icon
+mame2003_plus_ICON = mame
 
 mednafen_ngp_NAME = ngp
 mednafen_ngp_ROM_DIR = /mnt/Neo Geo Pocket
@@ -527,6 +527,11 @@ pokemini_ROM_DIR = /mnt/PokeMini
 pokemini_ICON_URL = https://raw.githubusercontent.com/MiyooCFW/gmenu2x/gmenunx/assets/miyoo/skins/PixUI/icons/pokemini.png
 pokemini_ICON = pokemini
 
+prboom_NAME = PrBoom
+prboom_ROM_DIR = /mnt/Doom
+prboom_ICON_URL = https://raw.githubusercontent.com/libretro/retroarch-assets/master/Systematic/icons/png/64/DOOM.png
+prboom_ICON = DOOM
+
 quicknes_ROM_DIR = /mnt/NES
 quicknes_ICON_URL = https://raw.githubusercontent.com/FunKey-Project/FunKey-OS/master/FunKey/package/FCEUX/opk/nes/nes.png
 quicknes_ICON = nes
@@ -553,10 +558,20 @@ snes9x2010_ICON_URL = https://raw.githubusercontent.com/FunKey-Project/FunKey-OS
 snes9x2010_ICON = snes
 snes9x2010_ROM_DIR = /mnt/SNES
 
+scummvm_NAME = ScummVM
+scummvm_ROM_DIR = /mnt/ScummVM
+scummvm_ICON_URL = https://www.scummvm.org/images/scummvm.png
+scummvm_ICON = scummvm
+
 stella2014_NAME = stella2014
 stella2014_ICON_URL = https://raw.githubusercontent.com/MiyooCFW/gmenu2x/gmenunx/assets/miyoo/skins/PixUI/icons/stella-od.png
 stella2014_ICON = stella-od
 stella2014_ROM_DIR = /mnt/Atari 2600
+
+tyrquake_NAME = TyrQuake
+tyrquake_ROM_DIR = /mnt/TyrQuake
+tyrquake_ICON_URL = https://raw.githubusercontent.com/libretro/retroarch-assets/master/Systematic/icons/png/64/Quake.png
+tyrquake_ICON = Quake
 
 define CORE_opk =
 
